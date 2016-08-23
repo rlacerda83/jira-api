@@ -20,6 +20,25 @@ class Repository extends Api
     }
 
     /**
+     * @param $email
+     * @param $startDate
+     * @param $endDate
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     */
+    public function getIssuesByUserAndDate($email, $startDate, $endDate)
+    {
+        $url = $this->getEndpoints()->getEndpointSearch();
+        $params['jql'] = sprintf(
+            "status changed BY '%s' and updated > '%s 00:00' and updated < '%s 23:59' order by updated",
+            $email,
+            $startDate,
+            $endDate
+        );
+
+        return $this->requestGet($url, $params);
+    }
+
+    /**
      * @param $key
      * @param $transitionId
      * @return bool|\Psr\Http\Message\ResponseInterface
