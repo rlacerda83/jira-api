@@ -50,11 +50,10 @@ class Repository extends Api
             $key
         );
 
-        $params = json_encode([
-            'transition' => [
-                'id' => $transitionId,
-            ],
-        ]);
+        $params['transition'] = [
+            'id' => $transitionId,
+        ];
+
         return $this->requestPostRaw($url, $params);
     }
 

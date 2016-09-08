@@ -123,14 +123,14 @@ class Client
         $url = $this->getApiBaseUrl().'/'.$endpoint;
 
         // change the response format
-        if (strpos($url, 'format=') === false) {
+        if (strpos($url, 'format=') === false && !$rawData) {
             $url .= (strpos($url, '?') === false ? '?' : '&').'format='.$this->getResponseFormat();
         }
 
         // add a default content-type if none was set
         if (in_array(strtoupper($method), array('POST', 'PUT')) && empty($headers['Content-Type'])) {
             $this->addOptions([
-                'Content-Type' => 'application/x-www-form-urlencoded'
+                'Content-Type' => $rawData ? 'application/json;charset=UTF-8' : 'application/x-www-form-urlencoded'
             ]);
 
             if ($rawData !== null) {
