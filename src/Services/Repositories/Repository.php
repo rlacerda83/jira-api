@@ -103,4 +103,24 @@ class Repository extends Api
 
         return $issueList;
     }
+
+    /**
+     * @param $team
+     * @param $project
+     * @param $type
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     */
+    public function getBugs($project, $team, $type, $date)
+    {
+        $url = $this->getEndpoints()->getEndpointSearch();
+        $params['jql'] = sprintf(
+            'project = "%s" AND CausedByTeam = "%s" AND type in (%s) AND status = "Resolved" AND created > "%s"',
+            $project,
+            $team,
+            $type,
+            $date
+        );
+
+        return $this->requestGet($url, $params);
+    }
 }
